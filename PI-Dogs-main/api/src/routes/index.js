@@ -58,6 +58,52 @@ const getApiInfo=async(req,res)=>{
         res.status(200).send(dogsTotal);
     }
     })
+    router.get("/temperaments", async (req, res) => {
+        const val = await Temperament.findAll();
+        if (val.length === 0) {
+            const tempAPI = await axios.get("https://api.thedogapi.com/v1/breeds")
+            .catch((error) => {
+                return res.status(500).send(error);
+            });
+            var tempList = await tempAPI.data
+            .map((e) => e.temperament)
+            .join()
+            .split(", ")
+            .join()
+            .split(",");
+            const list = new Set(tempList);
+            for (let item of list) {
+                await Temperament.create({ name: item});
+            }
+        }
+        var temp = await Temperament.findAll();
+        res.json(temp)  
+    })
+    // router.get('/dogs/:id', async (req, res) => {
+    //     const id = req.params.id;// const {id} = req.params;otra forma
+    //     const dogsTotal=await getAllDogs();
+    //     if(id){
+    //         let dogId=await dogsTotal.filter(el=>el.id===id);
+    //         dogId.length?
+    //         res.status(200).json(dogId) :    
+    //         res.status(404).send('No hay perros con ese id');
+    //     }
+    // })
+
+    
+    router.get('/dogs/:id', async (req, res, next) => {
+        
+        const {id} = req.params
+        const allDogs = await getAllDogs()
+        const dogById = allDogs.find(e => e.id == id)
+        if(dogById) {
+        res.json(dogById) 
+        } else {
+        res.status(404).send('the id does not exist')
+        }
+       
+    })
+
          
 
 module.exports = router;
