@@ -103,6 +103,15 @@ const getApiInfo=async(req,res)=>{
         }
        
     })
+    router.post('/dogs', async (req, res) => {
+        const {name, height, weight, life_span, temperament,created,image} = req.body
+        let dogCreated=await Dog.create({name, height, weight, life_span,created,image})
+        let temperamentdb=await Temperament.findAll({where:{name:temperament}})
+        dogCreated.addTemperament(temperamentdb)
+        res.send('dog created')
+    })
+
+
 
          
 
