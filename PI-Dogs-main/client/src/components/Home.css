@@ -1,0 +1,87 @@
+.fondo {
+    background: url("https://t4.ftcdn.net/jpg/01/91/60/19/360_F_191601919_MWTmmwLxetfWEyeWrAH7EYq6eXQhQP3c.jpg");
+    background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  height: 115vh;
+  overflow: hidden;
+  scroll-behavior: hidden;
+}
+
+.paginate {
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 900;
+    display: contents;
+    color: rgb(8, 15, 1);;
+    letter-spacing: 5px;
+}
+
+.botones {
+    font-family: 'Urbanist', sans-serif;
+    width: 100px;
+    height: 19px;
+    border-radius: 5px;
+    margin-left: 20px;
+    background-color: black;
+    color: white;
+}
+
+.reload {
+    font-family: 'Urbanist', sans-serif;
+    width: 60px;
+    height: 20px;
+    border-radius: 20px;
+    margin-left: 20px;
+    background-color: rgb(120, 214, 26);
+    color: black;
+}
+
+.reload:hover {
+    transform: scale(1.15)
+}
+
+.temperamento {
+    width: 110px;
+    height: 19px;
+    border-radius: 5px;
+    margin-left: 20px;
+    background-color: black;
+    color: white;
+}
+
+.crea {
+    font-family: 'Urbanist', sans-serif;
+    color: white;
+    background-color: black;
+    border-radius: 5px;
+    margin-left: 20px;
+}
+
+.crea:hover{
+    color: black;
+    background-color: rgb(120, 214, 26);
+}
+
+.title {
+    font-family: 'Urbanist', sans-serif;
+    margin-top: 0.1px;
+    font-size: 70px;
+    -webkit-text-stroke-width: 2.7px;
+    -webkit-text-fill-color: rgb(120, 214, 26);
+}
+
+.card {
+    font-family: 'Urbanist', sans-serif;
+}
+
+.doggys {
+    display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   justify-content: space-around;
+   align-items: center;
+   font-size: large;
+   align-content: space-between;
+   height: 380px;
+}

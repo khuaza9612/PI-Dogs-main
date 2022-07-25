@@ -1,0 +1,28 @@
+
+
+.cards {
+    display: flex;
+  flex-direction: column;
+  border-radius: 7px;
+  border: 2px solid;
+  border-color: #b9b9b9;
+  color: #2e2e2e;
+  width: 313px;
+  height: 200px;
+  align-content: space-between;
+  justify-content: center;
+  overflow: hidden;
+  margin-top: 20px;
+  margin-bottom: 18px;
+}
+
+.flex {
+    position: absolute;
+    margin-top: 0.1px;
+    font-size: larger;
+    font-weight: bolder;
+    overflow: hidden;
+    width: inherit;
+    text-align: center;
+    text-shadow: 1px 1px #ffffff;
+  }

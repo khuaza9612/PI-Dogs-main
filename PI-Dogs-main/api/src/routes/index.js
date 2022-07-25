@@ -93,7 +93,7 @@ const getApiInfo=async(req,res)=>{
     
     router.get('/dogs/:id', async (req, res, next) => {
         
-        const {id} = req.params
+        const {id} = req.params// const id = req.params.id otra forma
         const allDogs = await getAllDogs()
         const dogById = allDogs.find(e => e.id == id)
         if(dogById) {

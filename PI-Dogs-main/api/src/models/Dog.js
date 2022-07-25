@@ -16,11 +16,11 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     height: {
-      type: DataTypes.JSONB,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     weight: {
-      type: DataTypes.JSONB,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     life_span: {
@@ -31,7 +31,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    image: { type: DataTypes.JSONB, 
+    image: { type: DataTypes.STRING, 
       allowNull: true,
     },
     created: {
