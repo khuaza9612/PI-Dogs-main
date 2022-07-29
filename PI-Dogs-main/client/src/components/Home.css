@@ -1,5 +1,5 @@
 .fondo {
-    background: url("https://t4.ftcdn.net/jpg/01/91/60/19/360_F_191601919_MWTmmwLxetfWEyeWrAH7EYq6eXQhQP3c.jpg");
+   
     background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -85,3 +85,5 @@
    align-content: space-between;
    height: 380px;
 }
+
+

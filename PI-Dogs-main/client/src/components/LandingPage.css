@@ -1,0 +1,53 @@
+header {
+    position: absolute;
+    width: 100%;
+  }
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1110px;
+    margin: 0 auto;
+    padding: 34px 30px;
+  }
+
+  .logo {
+    font-family: 'Nunito';
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    color:#212b36;
+  }
+  .acceder {
+    font-family: 'Montserrat';
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 0.5%;
+    color: #ffffff;
+    background-color: #e06925
+    ;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 22px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  main {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    max-width: 1110px;
+    margin: 0 auto;
+    padding: 0 30px;
+  }
+  .fondo2 {
+    background: url("https://res.cloudinary.com/postedin/image/upload/mascotas/c-postedin-image-45372.gif");
+    background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  height: 115vh;
+  overflow: hidden;
+  scroll-behavior: hidden;
+}

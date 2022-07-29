@@ -15,7 +15,6 @@ function App() {
         <Route path='/create' component={CreateBreed}/>
         <Route exact path="/dogs/:id" component={Detail} />
         </Switch>
-      <h1>Henry Dogs</h1>
     </div>
     </BrowserRouter>
   );
