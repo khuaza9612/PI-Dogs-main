@@ -19,7 +19,8 @@ const getApiInfo=async(req,res)=>{
             image: el.image,
             temperament: el.temperament,
             name: el.name,
-            weight:  el.weight.metric.includes('NaN')? { metric:'No data'} : el.weight,
+            weight_min: Number(el.weight.metric.split("-")[0] || 0),
+            weight_max: Number(el.weight.metric.split("-")[1] || NaN),
             height: el.height,
             life_span: el.life_span,
         };
@@ -104,8 +105,8 @@ const getApiInfo=async(req,res)=>{
        
     })
     router.post('/dogs', async (req, res) => {
-        const {name, height, weight, life_span, temperament,created,image} = req.body
-        let dogCreated=await Dog.create({name, height, weight, life_span,created,image})
+        const {name, height,  height_min, life_span, temperament,created,image, height_max} = req.body
+        let dogCreated=await Dog.create({name, height, height_min, life_span,created,image,height_max})
         let temperamentdb=await Temperament.findAll({where:{name:temperament}})
         dogCreated.addTemperament(temperamentdb)
         res.send('dog created')

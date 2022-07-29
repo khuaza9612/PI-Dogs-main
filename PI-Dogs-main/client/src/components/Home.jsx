@@ -2,11 +2,13 @@ import React, { Fragment } from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
  
-  import {getDogs, getTemperaments,filterCreated  } from "../actions/index.js";
+  import {getDogs, getTemperaments,filterCreated,orderByName,orderByWeight,getDetail } from "../actions/index.js";
 import {Link} from "react-router-dom";
 import Card from "./Card.jsx";
 import Paginado from "./Paginado.jsx";
+import Detail   from "./Detail.jsx";
 import './Home.css';
+import SearchBar from "./SearchBar.jsx";
 
 export default function Home() {
     const dispatch = useDispatch();
@@ -16,9 +18,13 @@ export default function Home() {
     const [dogsPerPage,setDogsPerPage] = useState(8);// NUMERO DE ELEMENTOS EN LA PAGINA
     const indexOfLastDog = currentPage * dogsPerPage;// INDEX DE LA ULTIMA PAGINA
     const indexOfFirstDog = indexOfLastDog - dogsPerPage;// INDEX DEl ultimo personaje de la pagina
-    const currentDogs = allDogs.slice(indexOfFirstDog, indexOfLastDog);// ARRAY DE LOS PERSONAJES actuales dividir un arreglo lo que le pase por parametro
-    //1----------0---------6
+     //1----------0---------6
     //2----------1---------13
+    const currentDogs = allDogs.slice(indexOfFirstDog, indexOfLastDog);// ARRAY DE LOS PERSONAJES actuales dividir un arreglo lo que le pase por parametro
+    const [, setOrden] = useState("");
+    const [, setOrden2] = useState("");
+    
+   
     const paginado = (pageNumber) => {setCurrentPage(pageNumber)};// funcion para cambiar de pagina
     useEffect(() => {
         dispatch(getDogs());
@@ -35,18 +41,39 @@ export default function Home() {
         setCurrentPage(1);
 
     }
+    function handleSort(e) {
+        e.preventDefault();
+        dispatch(orderByName(e.target.value));
+        setCurrentPage(1);
+        setOrden(`Ordenado ${e.target.value}`);// estado local vacio
+      }
+      
+  function handleOrderWeight(e) {
+    e.preventDefault()
+    dispatch(orderByWeight(e.target.value))
+    setCurrentPage(1)
+    setOrden2(`Ordenado ${e.target.value}`)
+    
+  }
 
     return (
         <div className="fondo">
-            <Link to='/dogs'>crear</Link>
+            <SearchBar/>
+            <Link to='/create'>crear</Link>
             <h1>perros</h1>
             <button onClick={e=>{handleClick(e)}}>cargar</button>
             <div>
-                <select>
+                <select onChange={e=> handleSort(e)}>
                     <option value="asc">ascendente</option>
                     <option value="desc">Desendente</option>
 
                 </select>
+                <select  onChange={e => handleOrderWeight(e)}>
+                        <option hidden>Order By weight</option>
+                        <option value='min'>Weight min</option>
+                        <option value='max'>Weight max</option>
+                    </select><br/>
+    
 
                 <select onChange={e=> handleFilterCreated(e)}>
                     <option value="All">todos</option>
@@ -60,16 +87,15 @@ export default function Home() {
                 {currentDogs?.map((el)=>{
                     return(
                         <Fragment>
-                        <Link to={"/home/"+el.id}>
+                        <Link to={"/dogs/"+el.id}>
                         
-                    <Card key={el.id} name={el.name}image={el.image} weight={el.weight} temperament={el.temperament} />
+                    <Card key={el.id} name={el.name}image={el.image} weight={el.weight} temperament={el.temperament} weight_min={el.weight_min} weight_max={el.weight_max} />
                     </Link>
                         </Fragment>
                     );
                 })}
                 </div>
-
-            
+                
                     
             </div>
         </div>
