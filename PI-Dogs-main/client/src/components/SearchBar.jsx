@@ -27,7 +27,7 @@ export default function SearchBar(
         <div className='buscar'>
             <input type='text' placeholder='Find your breed'  onChange={(e) => handleInputChange(e)}/>
             <image> </image>
-            <button className="acceder"type= 'submit' onClick={(e) => handleSubmit(e)} >🐾Search 🐾</button>
+            <button className="acceder"type= 'submit' onClick={(e) => handleSubmit(e)} >🔍Search 🐾</button>
             
         </div>
     )

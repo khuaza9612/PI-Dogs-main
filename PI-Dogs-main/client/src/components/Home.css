@@ -1,13 +1,3 @@
-.fondo {
-   
-    background-position: center center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  height: 115vh;
-  overflow: hidden;
-  scroll-behavior: hidden;
-}
 
 .paginate {
     font-family: 'Urbanist', sans-serif;
@@ -73,6 +63,7 @@
 
 .card {
     font-family: 'Urbanist', sans-serif;
+    text-decoration: none;
 }
 
 .doggys {
@@ -86,4 +77,75 @@
    height: 380px;
 }
 
+.link{
+   
+  text-decoration: none;
+  
+}
+.cargar{
+    
+        font-family: 'Montserrat';
+        font-size: 18px;
+        font-weight: 700;
+        text-decoration: none;
+        letter-spacing: 0.5%;
+        color: #ffffff;
+        background-color: #e06925
+        ;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 22px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        margin-top: 20px;
+      }
+      .button_crear_perro{
+        font-family: 'Montserrat';
+        font-size: 18px;
+        font-weight: 700;
+        text-decoration: none;
+        letter-spacing: 0.5%;
+        color: #ffffff;
+        background-color: #25e03e
+        ;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 22px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+       margin-left: 400px;
+       
+      }
+      .paginado{
+        padding-top: 15px;
+      }
+      .custom-select {
+        position: relative;
+        font-family: Arial;
+        padding-top: 30px;
+        
+      }
+      .select {
+        background-color: DodgerBlue;
+        width: 100px;
+        height: 30px;
+        font-family: 'Montserrat';
+        margin-left: 15%;
+        
+        
+        font-weight: 1000;
+      }
+       .select:after{
+        position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent;
 
+       }
+     
+      
+      

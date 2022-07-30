@@ -1,14 +1,25 @@
 .paginate{
-    background-color: transparent;
+   
+    padding-top: 150px;
+    text-align: right;
+    display:inline-block;
+    width:60%;
 }
 
 .button-paginate{
-    border-radius: 999px;
-    background-color: black;
+    border-radius: 8px;
+    margin-right: 5px;
+    border-color: transparent;
+    font-family: 'Montserrat';
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+ 
+    background-color: #e06925;
     color: white;
 }
 
 .button-paginate:hover{
-    transform: scale(1.1);
+    transform: scale(2.1);
 }
 

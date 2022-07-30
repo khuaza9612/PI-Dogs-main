@@ -59,17 +59,26 @@ export default function Home() {
     return (
         <div className="fondo">
             <SearchBar/>
-            <Link to='/create'>crear</Link>
-            <h1>perros</h1>
-            <button onClick={e=>{handleClick(e)}}>cargar</button>
             <div>
-                <select onChange={e=> handleSort(e)}>
+                <button className="cargar"onClick={e=>{handleClick(e)}}>🔁​Actualizar🐶​</button>
+                <Link to="/create" >
+                <button className="button_crear_perro">🔁​Crear🐶​</button>
+                </Link>
+            </div>
+            <div className="paginado">
+
+            <Paginado dogsPerPage={dogsPerPage} allDogs={allDogs.length} paginado={paginado} />
+            </div>
+            
+            <div className="custom-select">
+                <select onChange={e=> handleSort(e)} className="select">
                     <option value="asc">ascendente</option>
                     <option value="desc">Desendente</option>
 
                 </select>
-                <select  onChange={e => handleOrderWeight(e)}>
-                        <option hidden>Order By weight</option>
+               
+                <select  onChange={e => handleOrderWeight(e)} className="select">
+                <option selected disabled>selecciona uno</option>
                         <option value='min'>Weight min</option>
                         <option value='max'>Weight max</option>
                     </select><br/>
@@ -82,12 +91,11 @@ export default function Home() {
 
                 </select>
                
-                <Paginado dogsPerPage={dogsPerPage} allDogs={allDogs.length} paginado={paginado} />
                 <div className="doggys">
                 {currentDogs?.map((el)=>{
                     return(
                         <Fragment>
-                        <Link to={"/dogs/"+el.id}>
+                        <Link to={"/dogs/"+el.id } className="link">
                         
                     <Card key={el.id} name={el.name}image={el.image} weight={el.weight} temperament={el.temperament} weight_min={el.weight_min} weight_max={el.weight_max} />
                     </Link>
@@ -98,6 +106,11 @@ export default function Home() {
                 
                     
             </div>
+            <div>
+                
+            </div>
+           
+                
         </div>
     )
 

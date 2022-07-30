@@ -3,7 +3,7 @@ import './Paginate.css';
 
 
 
-export default function Paginado({ dogsPerPage, allDogs, paginado }) {
+export default function Paginado({ dogsPerPage, allDogs, paginado, }) {
   let pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(allDogs / dogsPerPage); i++) {
@@ -14,7 +14,7 @@ export default function Paginado({ dogsPerPage, allDogs, paginado }) {
 
   return (
     <nav className="paginate">
-      <ul>
+      <ul className="">
         {pageNumbers &&
           pageNumbers.map((number, i) => (
             <li key={i} className="paginate">
