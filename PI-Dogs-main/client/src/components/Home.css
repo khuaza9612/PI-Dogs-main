@@ -130,20 +130,21 @@
         width: 100px;
         height: 30px;
         font-family: 'Montserrat';
-        margin-left: 15%;
+
+        
         
         
         font-weight: 1000;
       }
        .select:after{
         position: absolute;
-  content: "";
-  top: 14px;
-  right: 10px;
-  width: 0;
-  height: 0;
-  border: 6px solid transparent;
-  border-color: #fff transparent transparent transparent;
+        content: "";
+        top: 14px;
+        right: 10px;
+        width: 0;
+        height: 0;
+        border: 6px solid transparent;
+      border-color: #fff transparent transparent transparent;
 
        }
      

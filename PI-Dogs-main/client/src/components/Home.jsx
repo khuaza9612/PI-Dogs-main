@@ -74,6 +74,7 @@ export default function Home() {
                 <select onChange={e=> handleSort(e)} className="select">
                     <option value="asc">ascendente</option>
                     <option value="desc">Desendente</option>
+                    
 
                 </select>
                
