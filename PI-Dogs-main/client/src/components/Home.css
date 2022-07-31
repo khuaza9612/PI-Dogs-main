@@ -17,19 +17,7 @@
     color: white;
 }
 
-.reload {
-    font-family: 'Urbanist', sans-serif;
-    width: 60px;
-    height: 20px;
-    border-radius: 20px;
-    margin-left: 20px;
-    background-color: rgb(120, 214, 26);
-    color: black;
-}
 
-.reload:hover {
-    transform: scale(1.15)
-}
 
 .temperamento {
     width: 110px;
@@ -120,33 +108,41 @@
         padding-top: 15px;
       }
       .custom-select {
-        position: relative;
-        font-family: Arial;
-        padding-top: 30px;
+        margin-top:20px;
+        height:250px;
+        width:300px;
+        border:2px solid black;
+        margin-left: 80px;
+       
+       
         
       }
       .select {
-        background-color: DodgerBlue;
-        width: 100px;
-        height: 30px;
+        background-color:#e7c738;
+        width: 200px;
+        height: 60px;
         font-family: 'Montserrat';
+        margin-left: 50px;
+        margin-top: 10px;
+        font-size:18px;
+        
+
 
         
         
         
         font-weight: 1000;
       }
-       .select:after{
-        position: absolute;
-        content: "";
-        top: 14px;
-        right: 10px;
-        width: 0;
-        height: 0;
-        border: 6px solid transparent;
-      border-color: #fff transparent transparent transparent;
-
-       }
-     
-      
+.h1{
+  width: 120px;
+  font-size:18px;
+  margin-top:-12px;
+  margin-left:7px;
+  background:white;
+}
+.icon_filtro {
+  width: 35px;}
+  .option{
+    font-size:18px
+   }
       

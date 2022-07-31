@@ -9,6 +9,7 @@ import Paginado from "./Paginado.jsx";
 import Detail   from "./Detail.jsx";
 import './Home.css';
 import SearchBar from "./SearchBar.jsx";
+import {filter} from "./filtrar.png"
 
 export default function Home() {
     const dispatch = useDispatch();
@@ -70,27 +71,33 @@ export default function Home() {
             <Paginado dogsPerPage={dogsPerPage} allDogs={allDogs.length} paginado={paginado} />
             </div>
             
-            <div className="custom-select">
+            <div id="select" value="select" className="custom-select">
+                <h1 className="h1"><img className="icon_filtro" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMQ1lSD0uLlZgNmIulTaAy1UHPY7LsL6A_sg&usqp=CAU"alt="" />Filtros</h1>
                 <select onChange={e=> handleSort(e)} className="select">
-                    <option value="asc">ascendente</option>
-                    <option value="desc">Desendente</option>
-                    
+                <option selected disabled>Nombre ⏬</option>
+                    <option  className="option"value="asc">A-Z⏬</option>
+                    <option value="desc" className="option">Z-A⏬</option>
 
                 </select>
-               
+                <br></br>
                 <select  onChange={e => handleOrderWeight(e)} className="select">
-                <option selected disabled>selecciona uno</option>
-                        <option value='min'>Weight min</option>
-                        <option value='max'>Weight max</option>
-                    </select><br/>
+                <option selected disabled>Peso ⏬</option>
+                        <option value='min'className="option">Weight Min⏬</option>
+                        <option value='max'className="option">Weight Max⏬</option>
+                    </select>
+                    <br></br>
     
 
-                <select onChange={e=> handleFilterCreated(e)}>
-                    <option value="All">todos</option>
-                    <option value="created">creado</option>
-                    <option value="api">api</option>
+                <select onChange={e=> handleFilterCreated(e)} className="select">
+                <option selected disabled>Creados ⏬</option>
+
+                    <option value="All">Todos ⏬</option>
+                    <option value="created">Creado ⏬</option>
+                    <option value="api">Api ⏬</option>
 
                 </select>
+            </div>
+                <div>
                
                 <div className="doggys">
                 {currentDogs?.map((el)=>{
@@ -107,12 +114,12 @@ export default function Home() {
                 
                     
             </div>
-            <div>
+          
                 
             </div>
            
                 
-        </div>
+        
     )
 
 }
