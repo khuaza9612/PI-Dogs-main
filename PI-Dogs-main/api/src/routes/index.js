@@ -102,6 +102,7 @@ const getApiInfo=async(req,res)=>{
         } else {
         res.status(404).send('the id does not exist')
         }
+        
        
     })
     router.post('/dogs', async (req, res) => {
