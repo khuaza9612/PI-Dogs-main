@@ -19,11 +19,18 @@ const getApiInfo=async(req,res)=>{
             image: el.image,
             temperament: el.temperament,
             name: el.name,
-            weight_min: Number(el.weight.metric.split("-")[0] || 0),
-            weight_max: Number(el.weight.metric.split("-")[1] || NaN),
-            height: el.height,
-            life_span: el.life_span,
-        };
+            weight_min: (el.weight.metric.split("-")[0] || 0),
+            weight_max: (el.weight.metric.split("-")[1] || NaN),
+
+            height_max: (el.height.metric.split("-")[1] || NaN),
+            height_min: (el.height.metric.split("-")[0] || 0),
+            
+            life_span_min: (el. life_span.split("-")[0] || 0),
+            life_span_max: (el. life_span.split("-")[1] || NaN),
+
+      
+            
+};
 
         })
         return apiInfo;
@@ -42,9 +49,26 @@ const getApiInfo=async(req,res)=>{
     };
 
     const getAllDogs=async(req,res)=>{
-        const apiInfo= await getApiInfo();
-        const dbInfo= await getDbInfo(); 
-        const infoTotal= apiInfo.concat(dbInfo);
+   
+    const apiInfo= await getApiInfo();
+        const dbInfo= await getDbInfo();
+        const newDB = dbInfo.map(e => {
+            return {
+                id: e.id,
+                name: e.name,
+                image: e.image || 'https://st3.depositphotos.com/9494100/15431/i/600/depositphotos_154313516-stock-photo-pug-dog-with-yellow-constructor.jpg',
+                height_min: e.height_min,
+                height_max: e.height_max,
+                weight_min: e.weight_min,
+                weight_max: e.weight_max,
+               life_span_max: e.life_span_max,
+                created: e.created,
+                temperaments: e.temperaments.map(e => e.name).join(),
+                life_span_min: e.life_span_min,
+                
+            }
+        })
+        const infoTotal= apiInfo.concat(newDB);
         return infoTotal
     }
     router.get('/dogs', async (req, res) => {
@@ -59,6 +83,8 @@ const getApiInfo=async(req,res)=>{
         res.status(200).send(dogsTotal);
     }
     })
+  
+
     router.get("/temperaments", async (req, res) => {
         const val = await Temperament.findAll();
         if (val.length === 0) {
@@ -78,7 +104,7 @@ const getApiInfo=async(req,res)=>{
             }
         }
         var temp = await Temperament.findAll();
-        res.json(temp)  
+        res.json(temp)
     })
     // router.get('/dogs/:id', async (req, res) => {
     //     const id = req.params.id;// const {id} = req.params;otra forma
@@ -86,35 +112,51 @@ const getApiInfo=async(req,res)=>{
     //     if(id){
     //         let dogId=await dogsTotal.filter(el=>el.id===id);
     //         dogId.length?
-    //         res.status(200).json(dogId) :    
+    //         res.status(200).json(dogId) :
     //         res.status(404).send('No hay perros con ese id');
     //     }
     // })
 
-    
+
     router.get('/dogs/:id', async (req, res, next) => {
-        
-        const {id} = req.params// const id = req.params.id otra forma
+
+        const {id} = req.params// const id = req.query.id otra forma
         const allDogs = await getAllDogs()
         const dogById = allDogs.find(e => e.id == id)
         if(dogById) {
-        res.json(dogById) 
+        res.json(dogById)
         } else {
         res.status(404).send('the id does not exist')
         }
-        
-       
+
+
     })
-    router.post('/dogs', async (req, res) => {
-        const {name, height,  height_min, life_span, temperament,created,image, height_max} = req.body
-        let dogCreated=await Dog.create({name, height, height_min, life_span,created,image,height_max})
-        let temperamentdb=await Temperament.findAll({where:{name:temperament}})
-        dogCreated.addTemperament(temperamentdb)
-        res.send('dog created')
-    })
+    
 
+    router.post('/dogs', async(req, res) => {
+        const {name, height_min, height_max, weight_min, weight_max, temperament} = req.body;
+        if(!name || !height_min || !height_max || !weight_min || !weight_max) {
+          return res
+            .status(400)
+            .send({msg: "Falta enviar datos obligatorios"})
+        }
+        try {
+          const dog = await Dog.create(req.body)
+      
+          let tempDb = await Temperament.findAll({
+            where: {id : temperament}
+          })
+      
+          await dog.addTemperament(temperament)
+      
+          return res
+            .status(201)
+            .send({msg: "Perro creado correctamente"})
+        } catch (error) {
+          console.log(error)
+        }
+      })
+      
 
-
-         
 
 module.exports = router;

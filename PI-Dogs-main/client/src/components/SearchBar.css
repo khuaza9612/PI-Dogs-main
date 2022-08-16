@@ -1,7 +1,9 @@
 .buscar {
     position: relative;
-    padding: 5px;
+    top: -30px;
     float: right;
+    margin-top: 50px;
+    padding: 12px 22px;
   }
   
   .buscar input {

@@ -1,0 +1,42 @@
+.pagination_component {
+  margin: 27px 0 0px;
+  /* display: flex;
+  flex-direction: column; */
+  
+}
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  list-style: none;
+  gap: 11px;
+}
+.pagination_item {
+  border-radius: 5px;
+  overflow: hidden;
+}
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-color: transparent;
+  font-size: 16px;
+  font-weight: 500;
+  color: blanchedalmond;
+  height: 50px;
+  width: 50px;
+  background-color: #e06925;
+  border: 1px solid gray;
+  border-radius: 29px;
+  cursor: pointer;
+}
+.page:hover {
+  transform: scale(2.1);
+  
+}
+.page.active {
+  background-color: #25e03e;
+  color: white;
+}
+
+
+  

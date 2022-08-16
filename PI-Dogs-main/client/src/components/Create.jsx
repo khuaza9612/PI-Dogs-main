@@ -1,205 +1,294 @@
-import {React, useEffect, useState} from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getTemperaments, postDogs} from '../actions/index.js'
+import React, {useState, useEffect} from 'react';
+import { useDispatch, useSelector} from 'react-redux';
+import {postDogs} from '../actions/index';
+import { getTemperaments } from '../actions/index';
+import './Create.css'
 import {Link, useHistory} from 'react-router-dom'
 
-import styles from './CreateBreed.module.css'
 
-export default function CreateBreed() {
-    const dispatch = useDispatch()
-    const history = useHistory()
-    const allDogs = useSelector( (state) => state.dogs)
-    const allTemperaments = useSelector((state) => state.temperaments)
-    const [errors, setErrors] = useState({})
-    const [input, setInput] = useState({
-        name: '',
-        image: '',
-        height_min: '',
-        height_max: '',
-        weight_min: '',
-        weight_max: '',
-        life_spanmin: '',
-        life_spanmax: '',
-        temperaments: []
-    })
-//Validaciones
-function validate(input) {
-    const existeName = allDogs.filter(e => e.name.toLowerCase() === input.name.toLowerCase())
-    console.log(existeName)
-    let errors = {}
-    if(!input.name) {
-        errors.name='Name is required'
-    } else if(input.name.length < 3) {
-        errors.name = 'The name is invalid'
-    } else if(!input.name.match( (/^[A-Za-z]+$/))){
-        errors.name = 'Name of breed must contain only letters'
-    } else if(existeName.length > 0){
-        errors.name = 'breed name already exists'
-    }
-    if(!input.height_min){
-        errors.height_min = 'height_min is required'
-    } else if (parseInt(input.height_min) >= parseInt(input.height_max)){
-        errors.height_min = 'height_min cannot be greater than or equal to height_max'
-    }
-    if(!input.height_max){
-        errors.height_max = 'height_max is required'
-    } else if (parseInt(input.height_max) < parseInt(input.height_min)){
-        errors.height_max = 'height_max cannot be less than height_min'
-    }
-    if(!input.weight_min){
-        errors.weight_min = 'weight_min is required'
-    } else if (parseInt(input.weight_min) >= parseInt(input.weight_max)){
-        errors.weight_min = 'weight_min cannot be greater than or equal to weight_max'
-    }
-    if(!input.weight_max){
-        errors.weight_max = 'weight_max is required'
-    } else if (parseInt(input.weight_max) < parseInt(input.weight_min)){
-        errors.weight_max = 'weight_max cannot be less than weight_min'
-    }
-    if(!input.life_spanmin){
-        errors.life_spanmin = 'life_spanmin is required'
-    } else if (parseInt(input.life_spanmin) >= parseInt(input.life_spanmax)){
-        errors.life_spanmin = 'life_spanmin cannot be greater than or equal to life_spanmax'
-    }
-    if(!input.life_spanmax){
-        errors.life_spanmax = 'life_spanmax is required'
-    } else if (parseInt(input.life_spanmax) < parseInt(input.life_spanmin)){
-        errors.life_spanmax = 'life_spanmax cannot be greater than life_spanmin'
-    }
-    return errors
+
+
+function validar(input) {
+  //name
+  let errors = {};
+  if(!input.name) {
+    errors.name = 'debes ponerle un nombre'
+  } else if(!/[A-Z]+$/i.test(input.name)) {
+    errors.name = 'solo puede contener letras'
+  } else if(parseInt(input.name.length) >= 25) {
+    errors.name= 'debe contener menos de 25 caracteres'
+  }
+  // /^[A-Z]+$/i
+
+  //height
+  if(!input.height_max) {
+    errors.height_max = "altura max requerida"
+  } else if(parseInt(input.height_max) > 85) {
+    errors.height_max = 'debe ser menor a 85 CM' 
+  } else if(!/^[0-9]+$/.test(input.height_max)) {
+    errors.height_max = 'solo puede contener numeros'
+  }
+
+  //agregar a los otros inputs
+
+  if(!input.height_min) {
+    errors.height_min = 'altura min requerida'
+  } else if(parseInt(input.height_min) >= parseInt(input.height_max)) {
+    errors.height_min = 'debe ser menor al max'
+  } else if(!/^[0-9]+$/.test(input.height_min)) {
+    errors.height_min = 'solo puede contener numeros'
+  }
+
+
+  //weight  
+  if(!input.weight_max) {
+    errors.weight_max = "peso max requerido"
+  } else if(parseInt(input.weight_max) > 90) {
+    errors.weight_max = 'debe ser menor a 90 KG'
+  } else if(!/^[0-9]+$/.test(input.weight_max)) {
+    errors.weight_max = 'solo puede contener numeros'
+  }
+
+  if(!input.weight_min) {
+    errors.weight_min = 'peso min requerido'
+  } else if(parseInt(input.weight_min) >= parseInt(input.weight_max)) {
+    errors.weight_min= 'debe ser menor al max'
+  }
+
+
+  //life_span
+  if(parseInt(input.life_span_max) > 20) {
+    errors.life_span_max = 'debe ser menor a 20 Años'
+  } else if(!/^[0-9]+$/.test(input.life_span_max)) {
+    errors.life_span_max = 'solo puede contener numeros'
+  }
+  
+  if(parseInt(input.life_span_min) >= parseInt(input.life_span_max)) {
+    errors.life_span_min = 'debe ser menor al max'
+  } else if(!/^[0-9]+$/.test(input.life_span_min)) {
+    errors.life_span_min = 'solo puede contener numeros'
+  }
+
+  return errors;
 }
 
-    useEffect(() => {
-        dispatch(getTemperaments())
-    }, [dispatch])
 
-    function handleChange(e){
-        setInput({...input, [e.target.name]: e.target.value})
-        setErrors(validate({...input, [e.target.name] : e.target.value}))
-    }
+function Form() {
 
-    function handleSumbit(e){
-        e.preventDefault()
-        if(!input.name || !input.height_min || !input.height_max || !input.weight_max || !input.weight_min  || !input.life_spanmin || !input.life_spanmax || input.temperaments.length === 0) {
-            
-        } else if (errors.name || errors.height_min || errors.height_max || errors.weight_max || errors.weight_min || errors.life_span || errors.temperaments) {
-           } else {setErrors(validate(input))
+  const dispatch = useDispatch()
+
+  useEffect(()=> {
+    dispatch(getTemperaments())
+  }, [dispatch])
+
+  const temperamentos = useSelector(state => state.temperaments)
+  const history = useHistory()
+
+
+  const [errors, setErrors] = useState({});
+
+  const [input, setInput] = useState({
+    image:"",
+    name: "",
+    height_min: "",
+    height_max: "",
+    weight_min: "",
+    weight_max: "",
+    life_span_min: "",
+    life_span_max: "",
+    temperament: ""
+  });
+
+  const [selectNameState, setSelectNameState] = useState([])
+  
+  // console.log("input form :",input.temperament)
+
+  function handleChange(e){
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value
+    });
+    setErrors(validar({
+      ...input,
+      [e.target.name]: e.target.value
+    }))
+  }
+
+  function handleSelect(e){
+
+    if(input.temperament.includes(e.target.value)) return
+
+    setInput({
+      ...input,
+      temperament: [...input.temperament, e.target.value]
+    })
+
+    const selectName = e.target.value;
+    if(selectName === "default") return;
+    setInput({...input , temperament:[...input.temperament, selectName]})
+    setSelectNameState([...selectNameState, temperamentos.find(e => e.id === parseInt(selectName))])
+  }
+
+  function handleSubmit(e){
+    e.preventDefault();
+    if(!errors.name && !errors.height_min && !errors.height_max &&!errors.weight_min && !errors.weight_max) {
+      try {
         dispatch(postDogs(input))
-        
         setInput({
-        name: '',
-        image: '',
-        height_min: '',
-        height_max: '',
-        weight_min: '',
-        weight_max: '',
-        life_spanmin: '',
-        life_spanmax: '',
-        
+          image:"",
+          name: "",
+          height_min: "",
+          height_max: "",
+          weight_min: "",
+          weight_max: "",
+          life_span_min: "",
+          life_span_max: "",
+          temperament: ""
         })
         history.push('/home')
-        }
-    }
+        setSelectNameState([])
+      } catch (error) {
+        console.log(error)
+      }
+    } 
+  }
 
-    function handleSelect(e) {
-        if(Object.values(input.temperaments).includes(e.target.value)){
-            alert('duplicate temperament')
-        } else {
-        setInput({
-            ...input,
-            temperaments: [...input.temperaments, e.target.value]
-        })
-        }
-    }
 
-    function handleDelete(e) {
-        setInput({
-            ...input,
-            temperaments: input.temperaments.filter(t => t !== e)
-        })
-    }
+  function handleDelete(e){
+    setInput({...input, temperament : input.temperament.filter(t => t !== e.target.value)})
+    setSelectNameState(selectNameState.filter(t => t.id !== parseInt(e.target.value)))
+  }
 
-    return (
+
+  return(
+    
+    <div className='Form_container'>
+      <h2 className='titl'>AGREGA UNA NUEVA RAZA DE PERROS</h2>
+      <p className='datos_obligatorios'>Datos obligatorios*</p>
+
+      <form className='form' action="" onSubmit={handleSubmit}>
+        {/* ---- INPUT NAME ---- */}
         <div>
-            <nav className={styles.nav}>
-                <Link to='/home'><button className={styles.buttonhome}>HOME</button></Link>
-            </nav>
-            <div className={styles.containerTotal}>
-            <div className={styles.imgTotal}>
-               
+          <div>
+            <label>Nombre *</label>
+            <div className={errors.name ? "div_input error" : "div_input"}>
+              <input className='form_input' placeholder='Eje: naruto' onChange={handleChange} name="name" value={input.name}/>
             </div>
-            <div className={styles.container}>
-                <h2 className={styles.title}>CREATE BREED</h2>
-                <form onSubmit={(e) => handleSumbit(e)} className={styles.form}>
-                    <div>
-                        <label>Name:</label>
-                        <input type='text' placeholder='breed name' value={input.name} name='name' onChange={(e)=> handleChange(e)} className={styles.input}/>
-                        {errors.name && <p className={styles.error}>{errors.name}</p>}
-                    </div>
-                    <div>
-                        <label>Picture:</label>
-                        <input type='url' placeholder= 'enter image url' value={input.image} name='image' onChange={(e)=> handleChange(e)} className={styles.input}/>
-                    </div>
-                    <div>
-                        <label>Height min:</label>
-                        <input type='number' placeholder= 'cm' value={input.height_min} name='height_min' min='1' max='150' onChange={(e)=> handleChange(e)} className={styles.input}/>
-                        {errors.height_min && <p className={styles.error}>{errors.height_min}</p>}
-                    </div>
-                    <div>
-                        <label>Height max:</label>
-                        <input type='number' placeholder= 'cm' value={input.height_max} name='height_max' min='1' max='150' onChange={(e)=> handleChange(e)} className={styles.input}/>
-                        {errors.height_max && <p className={styles.error}>{errors.height_max}</p>}
-                    </div>
-                    <div>
-                        <label>Weight min:</label>
-                        <input type='number' placeholder= 'kg' value={input.weight_min} name='weight_min' min='1' max='150' onChange={(e)=> handleChange(e)} className={styles.input}/>
-                        {errors.weight_min && <p className={styles.error}>{errors.weight_min}</p>}
-                    </div>
-                    <div>
-                        <label>Weight max:</label>
-                        <input type='number' placeholder= 'kg' value={input.weight_max} name='weight_max' min='1' max='150' onChange={(e)=> handleChange(e)} className={styles.input}/>
-                        {errors.weight_max && <p className={styles.error}>{errors.weight_max}</p>}
-                    </div>
-                    <div>
-                        <label>Life_spanmin:</label>
-                        <input type='number' placeholder= 'year' value={input.life_spanmin} name='life_spanmin' min='1' max='100' onChange={(e)=> handleChange(e)} className={styles.input}/>
-                        {errors.life_spanmin && <p className={styles.error}>{errors.life_spanmin}</p>}
-                    </div>
-                    <div>
-                        <label>Life_spanmax:</label>
-                        <input type='number' placeholder= 'year' value={input.life_spanmax} name='life_spanmax' min='1' max='100' onChange={(e)=> handleChange(e)} className={styles.input}/>
-                        {errors.life_spanmax && <p className={styles.error}>{errors.life_spanmax}</p>}
-                    </div>
-                    <div>
-                        <label>Temperaments: </label>
-                        <select onChange={(e) => handleSelect(e)} className={styles.input}>
-                        <option hidden>All Temperaments</option> 
-                            {
-                                allTemperaments.map(e=> (
-                                <option key={e.id} value={e.name}>{e.name}</option>
-                                ))
-                            }
-                        </select>
-                        {errors.temperaments && <p className={styles.error}>{errors.temperaments}</p>}
-                    </div>
-                        { input.temperaments.map(e =>
-                            <div key={e} className={styles.elements}>
-                                <p className={styles.element}>{e}
-                                <button type='button' onClick={() => handleDelete(e)} className={styles.buttonX}>x</button>
-                                </p>
-                            </div>
-                    
-                        )}  
-                    <div className={styles.divbutton}>
-                        <button type='submit' className={styles.button}>CREATE</button>
-                    </div>
-                </form>
-            </div>
-            <div className={styles.imgTotal}>
-                
-            </div>
-            </div>
-           
+            {errors.name && (<span className='dato_incorrecto'>{errors.name}</span>)}
+          </div>
         </div>
-    )
+
+        {/* ---- INPUT IMAGE ---- */}
+        <div>
+          <label>Imagen</label>
+          <div className= "div_input">
+            <input className='form_input' placeholder='Url de la imagen' onChange={handleChange} name="image" value={input.image}/>
+          </div>
+        </div>
+
+        {/* ---- INPUT HEIGHT ---- */}
+        <div className='div_inputs_dobles'>
+          <div className='max'>
+            <label>Altura *</label>
+            <div className={errors.height_max ? "div_input error" : "div_input"}>
+              <input className='form_input min' placeholder='Max' onChange={handleChange} name="height_max" value={input.height_max}/>
+              <span className='unidad'>CM</span>
+             
+            </div>
+            {errors.height_max && (<span className='dato_incorrecto'>{errors.height_max}</span>)}
+          </div>
+          
+
+          <div className='min'>
+            <label className='label_min'>Peso</label>
+            <div className={errors.height_min ? "div_input error" : "div_input"}>
+              <input className='form_input max' placeholder='Min' onChange={handleChange} name="height_min" value={input.height_min}/>
+              <span className='unidad'>CM</span>
+            </div>
+            {errors.height_min && (<span className='dato_incorrecto'>{errors.height_min}</span>)}
+          </div>
+        </div>
+
+        {/* ---- INPUT WEIGHT ---- */}
+        <div className='div_inputs_dobles'>
+          <div className='max'>
+            <label>Peso *</label>
+            <div className={errors.weight_max ? "div_input error" : "div_input"}>
+              <input className='form_input min' placeholder='Max' onChange={handleChange} name="weight_max" value={input.weight_max}/>
+              <span className='unidad'>KG</span>
+            </div>
+            {errors.weight_max && (<span className='dato_incorrecto'>{errors.weight_max}</span>)}
+          </div>
+          
+
+          <div className='min'>
+            <label className='label_min'>Peso</label>
+            <div className={errors.weight_min ? "div_input error" : "div_input"}>
+              <input className='form_input max' placeholder='Min' onChange={handleChange} name="weight_min" value={input.weight_min}/>
+              <span className='unidad'>KG</span>
+            </div>
+            {errors.weight_min && (<span className='dato_incorrecto'>{errors.weight_min}</span>)}
+          </div>
+        </div>
+
+        {/* ---- INPUT LIFE_SPAN ---- */}
+        <div >
+          <div className='max'>
+            <label>Años de vida</label>
+            <div className={errors.life_span_max ? "div_input error" : "div_input"}>
+              <input className='form_input min_years' placeholder='Max' onChange={handleChange} name="life_span_max" value={input.life_span_max}/>
+              <span className='unidad'>Años</span>
+            </div>
+            {errors.life_span_max && (<span className='dato_incorrecto'>{errors.life_span_max}</span>)}
+          </div>
+          
+
+          <div className='min'>
+            <label className='label_min'>Peso</label>
+            <div className={errors.life_span_min ? "div_input error" : "div_input"}>
+            <br></br>
+            <br></br>
+            <br></br>
+              <input className='form_input max_years' placeholder='Min' onChange={handleChange} name="life_span_min" value={input.life_span_min}/>
+              <span className='unidad'>Años</span>
+            </div>
+            {errors.life_span_min && (<span className='dato_incorrecto'>{errors.life_span_min}</span>)}
+          </div>
+        </div>
+        
+        {/* ---- INPUT TEMPERAMENT ---- */}
+        <div>
+          <label>Temperamentos</label>
+          <div className="div_input">
+            <select className='select_form' name="temperamentos" onChange={handleSelect}>
+              {temperamentos.map((t, i) => {
+                return(
+                  <option className='option_form' key={i} value={t.id}>{t.name}</option>
+                )
+              })}
+            </select>
+          </div>
+          <div className='div_form_final_temps'>
+            <ul className='ul_temp'>
+              {selectNameState.map((e, i) => {
+                return(
+                <li className='li_temp' key={i}>
+                  {e.name}
+                  <button className='delete_temp' type='button' value={e.id} onClick={handleDelete}>x</button>
+                </li>
+                )
+              })}
+            </ul>
+          </div>
+        </div>
+
+        <input className={errors.name || errors.height_min || errors.height_max || errors.weight_min || errors.weight_max ? "submit none" : "submit"} type="submit" value="🔁​Crear🐶">
+        
+        </input>
+
+      </form>
+    </div>
+  )
 }
+
+export default Form

@@ -85,7 +85,7 @@
         padding: 12px 22px;
         transition: all 0.3s ease;
         cursor: pointer;
-        margin-top: 20px;
+        margin-top: 50px;
       }
       .button_crear_perro{
         font-family: 'Montserrat';
@@ -109,7 +109,7 @@
       }
       .custom-select {
         margin-top:20px;
-        height:250px;
+        height:320px;
         width:300px;
         border:2px solid black;
         margin-left: 80px;

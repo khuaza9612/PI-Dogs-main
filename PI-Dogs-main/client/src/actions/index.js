@@ -16,10 +16,10 @@ export function getDogs(){
   }
 }
 
-export function getTemperaments(payload) {
+export function getTemperaments(payload ) {
     return async function (dispatch) {
       try {
-          let temperaments = await axios.get(`http://localhost:3001/temperaments`)
+          const temperaments = await axios.get(`http://localhost:3001/temperaments`)
           return dispatch({
               type: 'GET_TEMPERAMENTS',
               payload: temperaments.data
@@ -31,14 +31,19 @@ export function getTemperaments(payload) {
   }
   }
   export function postDogs(payload) {
-    return async function (dispatch) {
-          let dogs = await axios.post(`http://localhost:3001/dogs`, payload)// pendiente ruta back
-          // en esta ruta queero hacer el post del payload que me llega desde del front
-          console.log(dogs)
-          return dogs
-              
+    return async function(dispatch) {
+        try {
+          await axios.post("http://localhost:3001/dogs", payload);
+          alert("perro creado correctamente")
+          return dispatch({
+            type: 'POST_DOGS',
+          })
+        } catch (error) {
+          console.log(error)
+          alert("perro no creado")
+        }
+      }
     }
-  }
   
 
 
@@ -71,6 +76,7 @@ export function orderByWeight(payload) {
         })
         }
         catch(err){
+          alert("perro no creado")
             console.log(err)
         }
   }
@@ -88,4 +94,14 @@ export function getDetail(id){
             console.log(err)
         }
     }
+
+    
 }
+export function filterTemperaments(payload){
+  return {
+      type: 'FILTER_TEMPERAMENTS',
+      payload
+  }
+}
+          
+           
