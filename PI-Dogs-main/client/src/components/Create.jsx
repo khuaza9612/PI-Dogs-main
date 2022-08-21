@@ -172,7 +172,7 @@ function Form() {
           <div>
             <label>Nombre *</label>
             <div className={errors.name ? "div_input error" : "div_input"}>
-              <input className='form_input' placeholder='Eje: naruto' onChange={handleChange} name="name" value={input.name}/>
+              <input className='form_input' placeholder='Nombre' onChange={handleChange} name="name" value={input.name}/>
             </div>
             {errors.name && (<span className='dato_incorrecto'>{errors.name}</span>)}
           </div>

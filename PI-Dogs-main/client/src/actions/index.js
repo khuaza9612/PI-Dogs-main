@@ -76,7 +76,7 @@ export function orderByWeight(payload) {
         })
         }
         catch(err){
-          alert("perro no creado")
+          alert("perro no encontrado")
             console.log(err)
         }
   }

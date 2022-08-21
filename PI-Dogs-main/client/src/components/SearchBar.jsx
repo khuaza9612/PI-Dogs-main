@@ -13,7 +13,7 @@ export default function SearchBar(
     
     function handleInputChange(e){ 
         e.preventDefault()
-        setName(e.target.value)
+        setName(e.target.value)// aggarro el valor del input y lo guardo en el estado local
         console.log(name)
        }
     function handleSubmit(e){

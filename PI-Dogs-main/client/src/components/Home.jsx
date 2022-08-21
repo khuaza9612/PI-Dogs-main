@@ -50,7 +50,7 @@ export default function Home() {
         e.preventDefault();
         dispatch(orderByName(e.target.value));
         setCurrentPage(1);
-        setOrden(`Ordenado ${e.target.value}`);// estado local vacio
+        setOrden(`Ordenado ${e.target.value}`);// modifical el estadi estado local para q ordene
       }
       
   function handleOrderWeight(e) {

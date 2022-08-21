@@ -16,7 +16,7 @@ const getApiInfo=async(req,res)=>{
     const apiInfo=await apiurl.data.map(el => {
         return{
             id: el.id,
-            image: el.image,
+            image: el.image || 'https://st3.depositphotos.com/9494100/15431/i/600/depositphotos_154313516-stock-photo-pug-dog-with-yellow-constructor.jpg',
             temperament: el.temperament,
             name: el.name,
             weight_min: (el.weight.metric.split("-")[0] || 0),
@@ -72,7 +72,7 @@ const getApiInfo=async(req,res)=>{
         return infoTotal
     }
     router.get('/dogs', async (req, res) => {
-        const name=req.query.name;
+        const name=req.query.name; //parametros de
         let dogsTotal=await getAllDogs();
         if(name){
             let dogName=await dogsTotal.filter(el=>el.name.toLowerCase().includes(name.toLowerCase()));// poner lo que filtre en minuscula
@@ -106,21 +106,13 @@ const getApiInfo=async(req,res)=>{
         var temp = await Temperament.findAll();
         res.json(temp)
     })
-    // router.get('/dogs/:id', async (req, res) => {
-    //     const id = req.params.id;// const {id} = req.params;otra forma
-    //     const dogsTotal=await getAllDogs();
-    //     if(id){
-    //         let dogId=await dogsTotal.filter(el=>el.id===id);
-    //         dogId.length?
-    //         res.status(200).json(dogId) :
-    //         res.status(404).send('No hay perros con ese id');
-    //     }
-    // })
+   
 
 
     router.get('/dogs/:id', async (req, res, next) => {
 
-        const {id} = req.params// const id = req.query.id otra forma
+        const {id} = req.params// const id = req.query.id otra forma 
+        // informacion de un solo elemento
         const allDogs = await getAllDogs()
         const dogById = allDogs.find(e => e.id == id)
         if(dogById) {
@@ -156,7 +148,45 @@ const getApiInfo=async(req,res)=>{
           console.log(error)
         }
       })
-      
 
+      router.get('/dogs', async (req, res) => {
+        const weight_min=req.query.weight_min;
+        let dogsTotal=await getAllDogs();
+        if(weight_min){
+            let dogName=await dogsTotal.filter(el=>el.weight_min.toLowerCase().includes(weight_min.toLowerCase()));// poner lo que filtre en minuscula
+            dogName.length?
+            res.status(200).send(dogName):
+            res.status(404).send('No hay perros con ese nombre');
+    }else{
+        res.status(200).send(dogsTotal);
+    }
+    })
+
+    const getprueba=async(req,res)=>{
+        const apiurl=await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`);
+        const apiInfo=await apiurl.data.map(el => {
+            return{
+               
+                
+                name: el.name,
+               
+          
+            };
+
+        })
+        return apiInfo;
+}; 
+router.get('/dog', async (req, res) => {
+    const name=req.query.name; //parametros de
+    let dogsTotal=await getprueba();
+    if(!name){
+        let dogName=await dogsTotal.filter(el=>el.name.toLowerCase().includes(name.toLowerCase()));// poner lo que filtre en minuscula
+        dogName.length?
+        res.status(200).send(dogName):
+        res.status(404).send('No hay perros con ese nombre');
+}else{
+    res.status(200).send(dogsTotal);
+}
+})
 
 module.exports = router;

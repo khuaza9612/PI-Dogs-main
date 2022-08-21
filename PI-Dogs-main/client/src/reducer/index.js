@@ -1,10 +1,9 @@
 const initialState = {
     dogs:[],
     allDogs: [],
-    filter:[],
-    temperaments:[],	//aqui se guardan los temperamentos
+
     detail:[],
-    filtrados3:[]
+    
 }
 
 
@@ -41,8 +40,7 @@ function rootReducer(state=initialState, action){
 
        
         case "ORDER_BY_NAME":
-        let sortedArr =
-        action.payload === "asc"
+        let sortedArr =action.payload === "asc"
           ? state.dogs.sort((a, b) => {
               if (a.name > b.name) {
                 return 1;
@@ -76,7 +74,9 @@ const allDogsW = state.allDogs.filter( e => e.weight_min)
  const orderWeight = action.payload === 'min'
 ? allDogsW.sort((a , b) =>{
   // Si se provee compareFunction, los elementos del array son ordenados de acuerdo al valor que retorna dicha función de comparación. Siendo a y b dos elementos comparados
-    return a.weight_min - b.weight_min
+    
+  //Para comparar números en lugar de strings, la función de comparación puede simplemente restar b de a. La siguiente función ordena el array de modo ascendente:
+  return a.weight_min - b.weight_min
     }) 
 : allDogsW.sort((a,b) =>{
     return b.weight_max - a.weight_max
