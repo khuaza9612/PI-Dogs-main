@@ -95,7 +95,7 @@ const getApiInfo=async(req,res)=>{
             var tempList = await tempAPI.data
             .map((e) => e.temperament)
             .join()
-            .split(", ")
+            .split("- ")
             .join()
             .split(",");
             const list = new Set(tempList);
